@@ -1,7 +1,8 @@
 import asyncio
 from aiogram.types import Message, CallbackQuery
 from aiogram import Router, F
-from aiogram.types import ReplyKeyboardRemove
+
+from services.handlers_functions import get_recipe
 
 router = Router()
 
@@ -19,3 +20,8 @@ async def process_publish_post(callback: CallbackQuery):
 async def process_reject_post(callback: CallbackQuery):
     await callback.message.delete()
     await callback.answer()
+    
+
+@router.callback_query(F.data == 'swap_post')
+async def process_swap_post(callback: CallbackQuery):
+    await get_recipe(callback.message)
