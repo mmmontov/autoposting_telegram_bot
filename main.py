@@ -7,6 +7,7 @@ from pyrogram.handlers import MessageHandler
 from keyboards.main_menu import set_main_menu
 from handlers.pyrogram_handlers.channels_handlers import ChannelsParser 
 from config_data.config import load_config
+from services.database_management import BotDatabase
 
 config = load_config()
 BOT_TOKEN = config.tg_bot.token
@@ -30,6 +31,10 @@ async def main():
     dp.include_router(callback_handlers.router)
 
     await set_main_menu(bot)
+    
+    # создаём бд если ее нет
+    database = BotDatabase(config.database.path)
+    await database.create_database()
     
     # await client.start()
 

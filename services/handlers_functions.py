@@ -13,6 +13,7 @@ async def get_recipe(message: Message):
         post_text, image_url = await gather_recipe()
         # если присутствует текст    
         if post_text:
+            # print(post_text)
             await message.answer_photo(photo=image_url, 
                                     caption=post_text, 
                                     reply_markup=create_post_actions_kb())     

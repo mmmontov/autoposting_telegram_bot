@@ -8,11 +8,13 @@ async def recipe_parse():
     # recipe = 200000 # error 404'
     # recipe = 786615 # "чистый рецепт"
     # recipe = 215630 # БЖУ разделить
+    # recipe = 118162 # с отдельной последней строкой
     main_url = 'https://chef.tm'
     recipe_url = 'https://chef.tm/recipe/'
     async with aiohttp.ClientSession() as session:
         session: aiohttp.ClientSession 
         response = await session.get(f'{recipe_url}{recipe}', headers=headers)
+        # print(f'{recipe_url}{recipe}')
         if response.ok:
             soup = BeautifulSoup(await response.text(), 'lxml')
             try:
@@ -33,7 +35,7 @@ async def gather_recipe():
         post_text, image_url = recipe
         if '????' in post_text:
             post_text = post_text.replace('????', ' ~~ ')   
-        # print(post_text) 
+        # print(post_text.split('\n'), len([i for i in post_text.split('\n')]), sep='\n') 
         return post_text, image_url
     return None
 
