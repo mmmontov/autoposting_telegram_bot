@@ -11,15 +11,17 @@ CALLBACK_RU: dict[str, dict] = {
         'swap_post': '🔄 другой пост',
     },
     'edit_menu': {
-        'delete_last_string': '🗑 удалить последний абзац',
+        'delete_first_string': '🔼🗑 удалить первый абзац',
+        'delete_last_string': '🔽🗑 удалить последний абзац',
         'add_link': '✉️ добавить ссылку на себя',
         'main_actions': '⬅️ назад'
     },
     'queue_menu': {
-        'next_post': '⏩ опубликовать следующий пост',
+        'next_post': '⏩ получить следующий пост',
+        'start_stop_queue': '⏯ вкл/выкл автопубликацию очереди',
+        
     }
-    
-    
+     
 }
 
 LEXICON_COMMANDS = {
@@ -28,4 +30,4 @@ LEXICON_COMMANDS = {
     '/switch_autoposting': 'вкл/выкл автоматическую отправку постов',
 }
 
-# ✅❌🔄✏️📆🗑⬅️✉️⏩
+# ✅❌🔄✏️📆🗑🔼🔽⬅️✉️⏩⏯

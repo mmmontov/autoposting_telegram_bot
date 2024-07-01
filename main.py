@@ -1,13 +1,13 @@
-import asyncio, schedule
+import asyncio
 from aiogram import Bot, Dispatcher
 from handlers.bot_handlers import user_handlers, posts_handlers, callback_handlers, admins_handlers
 from pyrogram import Client, filters, idle
-from pyrogram.handlers import MessageHandler
 
 from keyboards.main_menu import set_main_menu
 from handlers.pyrogram_handlers.channels_handlers import ChannelsParser 
 from config_data.config import load_config
 from services.database_management import BotDatabase
+from create_bot import bot # импорт объекта бота
 
 config = load_config()
 BOT_TOKEN = config.tg_bot.token
@@ -18,7 +18,6 @@ PHONE = config.tg_account.phone
 
 
 async def main():
-    bot: Bot = Bot(BOT_TOKEN)
     dp: Dispatcher = Dispatcher()
     
     # парсинг тг каналов временно отключен
@@ -31,7 +30,7 @@ async def main():
     dp.include_router(callback_handlers.router)
 
     await set_main_menu(bot)
-    
+
     # создаём бд если ее нет
     database = BotDatabase(config.database.path)
     await database.create_database()
@@ -40,7 +39,7 @@ async def main():
 
     await bot.delete_webhook(drop_pending_updates=True)
     print('бот запустился')
-    await dp.start_polling(bot)
+    await dp.start_polling(bot, polling_timeout=20)
     
     # await idle()
     # await client.stop()

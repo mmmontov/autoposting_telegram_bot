@@ -31,6 +31,7 @@ async def switch_autoposting(message: Message):
     # включение и выключение непрерывнго выполнения по кнопке
     AUTOPOSTING['mode'] = not AUTOPOSTING['mode']
     mode = AUTOPOSTING['mode']
+    await message.answer(f'автопостинг - {mode}')
     print('автопостинг', mode)
     
     while AUTOPOSTING['mode']:   

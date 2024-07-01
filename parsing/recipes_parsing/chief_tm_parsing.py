@@ -18,8 +18,9 @@ async def recipe_parse():
         if response.ok:
             soup = BeautifulSoup(await response.text(), 'lxml')
             try:
+                title = soup.find('h2', class_='zblock-title').text.strip()
                 recipe_block = soup.find('div', class_='zblock-p') # блок с картинкой и текстом
-                recipe_text = recipe_block.find('div', class_='post__text').text.strip()
+                recipe_text = f'<b>{title}</b>\n' + recipe_block.find('div', class_='post__text').text.strip()
                 recipe_image = main_url + recipe_block.find('div', class_='post__first_image').find('img')['src']
                 return recipe_text, recipe_image
             except AttributeError:
