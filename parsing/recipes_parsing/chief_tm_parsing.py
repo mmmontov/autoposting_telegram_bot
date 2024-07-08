@@ -1,4 +1,4 @@
-import aiohttp, random, lxml
+import aiohttp, random
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 

@@ -12,7 +12,7 @@ from services.database_management import BotDatabase
 
 config = load_config()
 
-posts_schelude = ['08:00', '10:00', '13:00', '15:00', '19:00', '22:00']
+posts_schelude = ['13:00', '15:00', '18:00', '20:00', '22:00', '00:00', '02:00']
 
 # recipe get func (функция запрашивает рецепт, проверяет его и отвечает на сообщение)
 async def get_recipe(message: Message):
@@ -41,21 +41,18 @@ async def publick_next_queue_post():
     db = BotDatabase(config.database.path)
     try:
         id, text, photo = db.get_next()
-    except StopIteration:
+        await bot.send_photo(config.tg_channel.channel_name, caption=text, photo=photo)
+    except TypeError:
         print('посты закончились')
-    await bot.send_photo(config.tg_channel.channel_name, caption=text, photo=photo)
     
 # так называемый костыль, который соединяет синхронность с асинхронностью
 def schedule_send_post():
     asyncio.ensure_future(publick_next_queue_post())
 
-def r():
-    print('adasasd')
-
 async def start_queue():
-    schedule.every(5).minutes.do(schedule_send_post)
-    # for time in posts_schelude:
-    #     schedule.every().day.at(time).do(schedule_send_post)
+    # schedule.every(5).seconds.do(schedule_send_post)
+    for time in posts_schelude:
+        schedule.every().day.at(time).do(schedule_send_post)
     while True:
         schedule.run_pending()
         await asyncio.sleep(1)

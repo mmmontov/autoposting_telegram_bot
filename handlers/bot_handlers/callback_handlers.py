@@ -118,3 +118,4 @@ async def process_start_stop_public_queue(callback: CallbackQuery):
         await callback.message.edit_text(f'автопостинг очереди выключен', 
                                         reply_markup=create_queue_menu_kb())
         await stop_queue()
+
