@@ -10,7 +10,7 @@ from services.handlers_functions import get_active_channel_post, format_main_men
 from services.database_management import BotDatabase
 from config_data.config import load_config
 from keyboards.post_actions_keyboard import *
-from handlers.bot_handlers.callback_handlers import QUEUE_AUTOPOSTING
+from handlers.bot_handlers.callback_handlers import get_autoposting
 
 router = Router()
 
@@ -48,7 +48,7 @@ async def get_post(message: Message):
 # get bot menu (главное меню бота)
 @router.message(Command(commands='bot_menu'))
 async def get_bot_menu(message: Message):
-    text = format_main_menu_text(QUEUE_AUTOPOSTING)
+    text = format_main_menu_text(get_autoposting())
     await message.answer(text=text, 
                          reply_markup=create_main_menu_kb())
 

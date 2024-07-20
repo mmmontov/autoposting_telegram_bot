@@ -13,6 +13,18 @@ router = Router()
 
 config = load_config()
 
+QUEUE_AUTOPOSTING = False
+
+# =============================== functions =========================================
+
+
+def get_autoposting():
+    return QUEUE_AUTOPOSTING
+
+
+# ===================================================================================
+
+
 # ================================= posts main menu =================================
 
 # resend message_copy to my channel
@@ -110,7 +122,6 @@ async def process_back_to_main_actions_menu(callback: CallbackQuery):
 # ============================ bot main menu ============================================
 
 
-QUEUE_AUTOPOSTING = False
 
 # publick last post in queue
 @router.callback_query(F.data == 'last_post')
