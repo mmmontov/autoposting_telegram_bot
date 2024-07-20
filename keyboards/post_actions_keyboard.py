@@ -28,6 +28,7 @@ def create_inline_kb(dict: dict, layout: list[int]=[]) -> InlineKeyboardMarkup:
                         for cd, txt in rest], width=1)
     return kb_builder.as_markup()
 
+# ======================= main callbacks ======================================
 
 def create_post_actions_kb() -> InlineKeyboardMarkup:
     return create_inline_kb(CALLBACK_RU['main_actions'], [1, 1, 2, 1])
@@ -37,7 +38,22 @@ def create_edit_post_kb() -> InlineKeyboardMarkup:
     return create_inline_kb(CALLBACK_RU['edit_menu'], [2, 1])
 
 
-def create_queue_menu_kb() -> InlineKeyboardMarkup:
-    return create_inline_kb(CALLBACK_RU['queue_menu'])
+def create_main_menu_kb() -> InlineKeyboardMarkup:
+    return create_inline_kb(CALLBACK_RU['main_menu'], [1, 2, 1, 1])
+    
+    
+def create_bot_mode_menu() -> InlineKeyboardMarkup:
+    return create_inline_kb(CALLBACK_RU['bot_mode'])
 
+
+# =============================================================================
+
+
+
+# ==================== on buttons click =======================================
+
+
+def create_main_actions_add_to_queue() -> InlineKeyboardMarkup:
+    return create_inline_kb(CALLBACK_RU['on_buttons_click']['main_actions_add_to_queue'], 
+                            [1, 1, 2, 1])
     

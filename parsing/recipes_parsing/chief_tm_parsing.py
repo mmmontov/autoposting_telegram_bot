@@ -1,4 +1,5 @@
 import aiohttp, random
+import aiohttp.client_exceptions
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 
@@ -12,8 +13,10 @@ async def recipe_parse():
     main_url = 'https://chef.tm'
     recipe_url = 'https://chef.tm/recipe/'
     async with aiohttp.ClientSession() as session:
-        session: aiohttp.ClientSession 
-        response = await session.get(f'{recipe_url}{recipe}', headers=headers)
+        try:
+            response = await session.get(f'{recipe_url}{recipe}', headers=headers)
+        except aiohttp.client_exceptions.ClientConnectionError:
+            return None
         # print(f'{recipe_url}{recipe}')
         if response.ok:
             soup = BeautifulSoup(await response.text(), 'lxml')

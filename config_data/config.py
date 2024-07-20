@@ -17,7 +17,7 @@ class TgAccount:
     
 @dataclass
 class TgChannel:
-    channel_name: str
+    channel_names: list[str]
     
     
 @dataclass
@@ -47,9 +47,23 @@ def load_config(path: str | None = None) -> Config:
             phone=env('PHONE')
         ),
         tg_channel=TgChannel(
-            channel_name=env('CHANNEL_ID')
+            channel_names=list(env.list('CHANNEL_IDS'))
         ),
         database=Database(
             path=env('DATABASE_PATH')
         )
     )
+
+config = load_config()
+channels = config.tg_channel.channel_names
+
+active_channel = channels[0]
+
+async def switch_active_channel(channel_id: str):
+    global active_channel
+    active_channel = channel_id
+    print(f'активный канал переключен на {active_channel}')
+
+def get_active_channel():
+    global active_channel
+    return active_channel

@@ -6,12 +6,11 @@ from pydantic import ValidationError
 from aiogram.exceptions import TelegramBadRequest
 
 from lexicon.lexicon import LEXICON_RU, LEXICON_COMMANDS
-from parsing.recipes_parsing.chief_tm_parsing import gather_recipe
-from services.handlers_functions import get_recipe
+from services.handlers_functions import get_active_channel_post, format_main_menu_text
 from services.database_management import BotDatabase
 from config_data.config import load_config
-from keyboards.post_actions_keyboard import create_queue_menu_kb
-
+from keyboards.post_actions_keyboard import *
+from handlers.bot_handlers.callback_handlers import QUEUE_AUTOPOSTING
 
 router = Router()
 
@@ -37,20 +36,19 @@ async def switch_autoposting(message: Message):
     while AUTOPOSTING['mode']:   
         await asyncio.sleep(delay)
         if AUTOPOSTING['mode']:
-            await get_recipe(message)               
+            await get_active_channel_post(message)               
   
         
 # get recipe (запросить случайный рецепт)  
 @router.message(Command(commands='get_post'))
 async def get_post(message: Message):
-    await get_recipe(message)
+    await get_active_channel_post(message)
     
     
-# get queue menu (меню очереди)
-@router.message(Command(commands='queue_menu'))
-async def get_queue_menu(message: Message):
-    db = BotDatabase(config.database.path)
-    queue_posts_count = len(db.get_queue())
-    await message.answer(text=f'постов в очереди - {queue_posts_count}', 
-                         reply_markup=create_queue_menu_kb())
-    
+# get bot menu (главное меню бота)
+@router.message(Command(commands='bot_menu'))
+async def get_bot_menu(message: Message):
+    text = format_main_menu_text(QUEUE_AUTOPOSTING)
+    await message.answer(text=text, 
+                         reply_markup=create_main_menu_kb())
+

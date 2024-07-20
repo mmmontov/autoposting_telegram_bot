@@ -10,7 +10,6 @@ from services.database_management import BotDatabase
 from create_bot import bot # импорт объекта бота
 
 config = load_config()
-BOT_TOKEN = config.tg_bot.token
 
 API_ID = config.tg_account.api_id
 API_HASH = config.tg_account.api_hash
